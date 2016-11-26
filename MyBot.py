@@ -6,6 +6,8 @@ import numpy as np
 myID, gameMap = getInit()
 sendInit("GBot")
 
+enemy_pos = Location(0,0)
+
 def log(message):
 	with open('log.txt', 'w') as f:
 		f.write(str(message) + '\n')
@@ -63,7 +65,7 @@ def move(location):
 		return Move(location, STILL)
 
 	if site.strength > site.production * 4:
-		return Move(location, NORTH if random.random() > 0.5 else WEST)
+		return move_towards_location(location, enemy_pos)
 
 	return Move(location, STILL)
 
@@ -75,4 +77,6 @@ while True:
 			location = Location(x, y)
 			if gameMap.getSite(location).owner == myID:
 				moves.append(move(location))
+			else:
+				enemy_pos = location
 	sendFrame(moves)
