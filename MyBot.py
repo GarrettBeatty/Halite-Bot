@@ -6,35 +6,16 @@ import numpy as np
 myID, gameMap = getInit()
 sendInit("GBot")
 
-enemy_pos = Location(int(gameMap.width/2),int(gameMap.height/2))
-
-def log(message):
-	with open('log.txt', 'w') as f:
-		f.write(str(message) + '\n')
-
 def move_towards_location(start, stop):
 
 	if stop.x > start.x:
-		if abs(stop.x - start.x) > gameMap.width / 2:
-			return Move(start, WEST)
-		else:
-			return Move(start, EAST)
-	else:
-		if abs(stop.x - start.x) > gameMap.width / 2:
-			return Move(start, EAST)
-		else:
-			return Move(start, WEST)
-
+		return Move(start, EAST)
+	elif stop.x < start.x:
+		return Move(start, WEST)
 	if stop.y > start.y:
-		if abs(stop.y - start.y) > gameMap.height / 2:
-			return Move(start, NORTH)
-		else:
-			return Move(start, SOUTH)
-	else:
-		if abs(stop.y - start.y) > gameMap.height / 2:
-			return Move(start, NORTH)
-		else:
-			return Move(start, SOUTH)
+		return Move(start, SOUTH)
+	elif stop.y < start.y:
+		return Move(start, SOUTH)
 
 	return Move(start, STILL)	  
 
@@ -77,6 +58,6 @@ while True:
 			location = Location(x, y)
 			if gameMap.getSite(location).owner == myID:
 				moves.append(move(location))
-			else:
+			elif gameMap.getSite(location).owner != 0:
 				enemy_pos = location
 	sendFrame(moves)
