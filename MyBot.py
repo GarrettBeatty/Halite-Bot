@@ -6,7 +6,7 @@ import numpy as np
 myID, gameMap = getInit()
 sendInit("GBot")
 
-enemy_pos = Location(0,0)
+enemy_pos = Location(int(gameMap.width/2),int(gameMap.height/2))
 
 def log(message):
 	with open('log.txt', 'w') as f:
