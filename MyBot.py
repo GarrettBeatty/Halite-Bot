@@ -15,7 +15,7 @@ def move_towards_location(start, stop):
 	if stop.y > start.y:
 		return Move(start, SOUTH)
 	elif stop.y < start.y:
-		return Move(start, SOUTH)
+		return Move(start, NORTH)
 
 	return Move(start, STILL)	  
 
@@ -45,7 +45,7 @@ def move(location):
 	if enemy_neigbor:
 		return Move(location, STILL)
 
-	if site.strength > site.production * 4:
+	if site.strength > site.production * 5:
 		return move_towards_location(location, enemy_pos)
 
 	return Move(location, STILL)
