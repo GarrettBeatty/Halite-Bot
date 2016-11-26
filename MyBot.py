@@ -6,9 +6,9 @@ import numpy as np
 myID, gameMap = getInit()
 sendInit("GBot")
 
-def write_log(message):
+def log(message):
 	with open('log.txt', 'w') as f:
-		f.write(str(message))
+		f.write(str(message) + '\n')
 
 def move_towards_location(start, stop):
 
@@ -34,21 +34,8 @@ def move_towards_location(start, stop):
 		else:
 			return Move(start, SOUTH)
 
-	return Move(start, STILL)
+	return Move(start, STILL)	  
 
-def spiral(loc):
-	x = loc.x
-	y = loc.y
-	X = gameMap.width
-	Y = gameMap.height
-	dx = 0
-	dy = -1
-	for i in range(max(X, Y)**2):
-		l = Location(x,y)
-		if gameMap.getSite(l).owner != myID:
-			return l
-		#TODO
-		
 
 def move(location):
 	site = gameMap.getSite(location)
@@ -76,15 +63,13 @@ def move(location):
 		return Move(location, STILL)
 
 	if site.strength > site.production * 4:
-		closest_loc = spiral(location)
-		return move_towards_location(location, closest_loc)
+		return Move(location, NORTH if random.random() > 0.5 else WEST)
 
 	return Move(location, STILL)
 
 while True:
 	moves = []
 	gameMap = getFrame()
-	enemies = []
 	for y in range(gameMap.height):
 		for x in range(gameMap.width):
 			location = Location(x, y)
